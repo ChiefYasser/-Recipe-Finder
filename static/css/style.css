@@ -1,0 +1,131 @@
+.head {
+    display: flex;      
+    justify-content: center; 
+    align-items: center; 
+    height: 10%;  
+    padding-top: 1%;     
+    background-color: #ca1727;
+}
+
+.head p {
+    color: white;      
+    font-size: 14px;  
+    font-weight: bold; 
+    text-align: center; 
+}
+.logo {
+    width: 10%;
+    margin-top: 2%;
+    margin-left: 4%;
+}
+
+.search-container {
+    margin-top: -5%;
+    margin-left: 13%;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px;
+    width: 100%; 
+    height: 100px; 
+}
+
+.search-input {
+    width: 30%; 
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: #ca1727 ; 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-button i {
+    font-size: 18px; 
+}
+
+.search-button:hover {
+    background-color: #ef5a2a; 
+}
+
+.head2 {
+    
+background-color:white ;
+padding-bottom: 3%;
+box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+
+}
+.login-container {
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-button {
+    background-color: #ca1727; 
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.login-button i {
+    font-size: 16px; 
+}
+
+.login-text {
+    
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.signin-text {
+    color: #333;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+.signup-text {
+    color: #333;
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+.signin-text:hover, .signup-text:hover {
+    color: #ca1727; 
+}
+.menu-items {
+    margin-top:6%;
+    
+    display: flex; 
+    gap: 50px; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.menu-items p {
+    display: flex;
+    align-items: center; 
+    font-size: 16px; 
+    margin: 0; 
+}
+
+.menu-items i {
+    font-size: 13px; 
+    margin-left: 10px; 
+    color: #ca1727; 
+}
+
