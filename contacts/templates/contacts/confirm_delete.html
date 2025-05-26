@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Contact</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'contacts/style.css' %}">
+</head>
+<body>
+    <button id="dark-mode-toggle" style="margin-bottom:20px;">🌙 Toggle Dark Mode</button>
+
+    <h1>Delete Contact</h1>
+    <p>Are you sure you want to delete <strong>{{ contact.name }}</strong>?</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">✅ Yes, delete</button>
+        <a href="{% url 'contact_list' %}">❌ Cancel</a>
+    </form>
+
+    <!-- ✅ JavaScript for Dark Mode Toggle -->
+    <script>
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        // Load mode from localStorage
+        if(localStorage.getItem('dark-mode') === 'enabled'){
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if(body.classList.contains('dark-mode')){
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>
+
+<!-- This template confirms the deletion of a contact. It displays the contact's name and asks for confirmation before proceeding with the deletion. -->
+<!-- The form submits a POST request to delete the contact, and there is a link to cancel the action and return to the contact list. -->

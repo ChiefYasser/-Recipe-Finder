@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>    
+<head>
+    <title>{% if contact %}Edit{% else %}Add{% endif %} Contact</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'contacts/style.css' %}">
+</head>
+<body>
+    <button id="dark-mode-toggle" style="margin-bottom:20px;">🌙 Toggle Dark Mode</button>
+    <h1>{% if contact %}Edit{% else %}Add{% endif %} Contact</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>Name:</label><br>
+        <input type="text" name="name" value="{{ contact.name|default_if_none:'' }}"><br><br>
+
+        <label>Phone:</label><br>
+        <input type="text" name="phone" value="{{ contact.phone|default_if_none:'' }}"><br><br>
+
+        <label>Email:</label><br>
+        <input type="email" name="email" value="{{ contact.email|default_if_none:'' }}"><br><br>
+
+        
+        <label>Birthday:</label><br>
+        <input type="date" name="birthday" value="{{ contact.birthday|default_if_none:'' }}"><br><br>
+        <label>Address:</label><br>
+<input type="text" name="address" value="{{ contact.address|default_if_none:'' }}"><br><br>
+<button type="submit">{% if contact %}Update{% else %}Add{% endif %}</button>
+
+    </form>
+
+    <a href="{% url 'contact_list' %}">⬅️ Back to Contacts</a>
+    <script>
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        // Load mode from localStorage
+        if(localStorage.getItem('dark-mode') === 'enabled'){
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if(body.classList.contains('dark-mode')){
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Book</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'contacts/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+    <button id="dark-mode-toggle" style="margin-bottom:20px;">🌙 Toggle Dark Mode</button>
+    <h1>My Contacts</h1>
+
+    {% if birthdays_today %}
+    <div style="background: #fffae6; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+        🎂 Today’s Birthdays:
+        <ul>
+            {% for contact in birthdays_today %}
+                <li><strong>{{ contact.name }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search by name, phone, or email" value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <a href="{% url 'add_contact' %}">➕ Add New Contact</a>
+
+    <ul>
+        {% for contact in contacts %}
+            <li>
+                <strong>{{ contact.name }}</strong> |
+                📞 {{ contact.phone }} |
+                ✉️ {{ contact.email }} |
+                {% if contact.address %}📍 {{ contact.address }}{% endif %} |
+                <a href="{% url 'edit_contact' contact.pk %}">✏️ Edit</a> |
+                <a href="{% url 'delete_contact' contact.pk %}">❌ Delete</a>
+            </li>
+        {% empty %}
+            <li>No contacts found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>📍 Contacts on Map</h2>
+    <div id="map" style="height: 400px; margin-top: 20px;"></div>
+
+    <script>
+        const map = L.map('map').setView([20, 0], 2); // World view
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const contacts = [
+            {% for contact in contacts %}
+                {% if contact.address %}
+                    {
+                        name: "{{ contact.name|escapejs }}",
+                        address: "{{ contact.address|escapejs }}"
+                    }{% if not forloop.last %},{% endif %}
+                {% endif %}
+            {% endfor %}
+        ];
+
+        contacts.forEach(contact => {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(contact.address)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+
+                        L.marker([lat, lon]).addTo(map)
+                            .bindPopup(`<strong>${contact.name}</strong><br>${contact.address}`);
+                    }
+                });
+        });
+    </script>
+
+    <script>
+        const toggleBtn = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        if (localStorage.getItem('dark-mode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        });
+    </script>
+</body>
+</html>
